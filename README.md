@@ -12,6 +12,6 @@ Wisp step, bell step, and sharpshooter are changed.
 
 # To install:
 
-Place "buried_maxis_solo.gsc" into `%localappdata%/Plutonium/storage/t6/scripts/zm/zm_buried`
+Place "buried_maxis_all_players.gsc" into `%localappdata%/Plutonium/storage/t6/scripts/zm/zm_buried`
 
 If any of the paths dont exist, create them.
