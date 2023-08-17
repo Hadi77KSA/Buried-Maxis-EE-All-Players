@@ -8,7 +8,6 @@
 #include maps\mp\zombies\_zm_sidequests;
 #include maps\mp\zombies\_zm_utility;
 
-
 main()
 {
 	replaceFunc( ::ows_target_delete_timer, ::new_ows_target_delete_timer );
