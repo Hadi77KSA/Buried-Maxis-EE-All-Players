@@ -120,12 +120,15 @@ buried_maxis_wisp()
 {
 	self endon( "death" );
 
-	while ( getPlayers().size <= 2 )
+	if ( getPlayers().size <= 2 )
 	{
-		if ( self.n_sq_energy <= 20 )
-			self.n_sq_energy += 20;
+		while ( true )
+		{
+			if ( self.n_sq_energy <= 20 )
+				self.n_sq_energy += 20;
 
-		wait 1;
+			wait 1;
+		}
 	}
 }
 
@@ -133,7 +136,7 @@ custom_sq_bp_set_current_bulb( str_tag )
 {
 	level endon( "sq_bp_correct_button" );
 	level endon( "sq_bp_wrong_button" );
-    	level endon( "sq_bp_timeout" );
+	level endon( "sq_bp_timeout" );
 
 	if ( isdefined( level.m_sq_bp_active_light ) )
 		level.str_sq_bp_active_light = "";
