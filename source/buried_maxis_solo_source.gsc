@@ -1,12 +1,13 @@
-#include maps/mp/_utility;
 #include common_scripts/utility;
-#include maps/mp/zombies/_zm_utility;
+#include maps/mp/_utility;
+#include maps/mp/zm_buried_sq;
 #include maps/mp/zm_buried_sq_ctw;
 #include maps/mp/zm_buried_sq_ip;
-#include maps/mp/zm_buried_sq_tpo;
 #include maps/mp/zm_buried_sq_ows;
-#include maps/mp/zm_buried_sq;
+#include maps/mp/zm_buried_sq_tpo;
 #include maps/mp/zombies/_zm_sidequests;
+#include maps/mp/zombies/_zm_utility;
+
 
 main()
 {
@@ -14,28 +15,6 @@ main()
 	replaceFunc( ::ows_targets_start, ::new_ows_targets_start);
 	replaceFunc( ::sq_bp_set_current_bulb, ::custom_sq_bp_set_current_bulb);
 	replaceFunc( ::ctw_max_start_wisp, ::custom_ctw_max_start_wisp);
-	replaceFunc( ::ctw_max_wisp_enery_watch, ::custom_ctw_max_wisp_enery_watch);
-}
-
-init()
-{
-	//level thread buried_targets(); //auto completes Sharpshooter targets
-}
-
-buried_targets()
-{
-	//Credit to Teh_Bandit for this function.
-	level endon( "end_game" );
-	self endon( "disconnect" );
-	for(;;)
-	{
-		flag_wait( "sq_ows_start" );
-		if ( getPlayers().size <= 3 )
-		{
-			flag_set( "sq_ows_success" );
-			break;
-		}
-	}
 }
 
 playertracker_onlast_step()
@@ -140,23 +119,11 @@ custom_ctw_max_start_wisp()
 buried_maxis_wisp()
 {
 	self endon( "death" );
-	while( 1 )
-	{
-		if( self.n.sq_energy <= 20 )
-		{
-			self.sq_energy += 20;
-		}
-		wait 1;
-	}
-}
-custom_ctw_max_wisp_enery_watch()
-{
-	self endon( "death" );
 
-	while ( true )
+	while ( getPlayers().size <= 2 )
 	{
-		if ( self.n_sq_energy > 1000 )
-			flag_set( "sq_wisp_failed" );
+		if ( self.n_sq_energy <= 20 )
+			self.n_sq_energy += 20;
 
 		wait 1;
 	}
@@ -166,11 +133,16 @@ custom_sq_bp_set_current_bulb( str_tag )
 {
 	level endon( "sq_bp_correct_button" );
 	level endon( "sq_bp_wrong_button" );
+    	level endon( "sq_bp_timeout" );
 
 	if ( isdefined( level.m_sq_bp_active_light ) )
 		level.str_sq_bp_active_light = "";
 
 	level.m_sq_bp_active_light = sq_bp_light_on( str_tag, "yellow" );
 	level.str_sq_bp_active_light = str_tag;
-	//removed timer
+	if ( getPlayers().size > 2 )
+	{
+		wait 10;
+		level notify( "sq_bp_timeout" );
+	}
 }
