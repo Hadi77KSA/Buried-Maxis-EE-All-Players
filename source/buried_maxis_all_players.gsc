@@ -113,7 +113,6 @@ custom_ctw_max_start_wisp()
 
 	if ( isdefined( level.vh_wisp ) )
 		level.vh_wisp delete();
-
 }
 
 buried_maxis_wisp()
