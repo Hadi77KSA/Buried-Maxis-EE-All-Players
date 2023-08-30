@@ -141,6 +141,13 @@ custom_sq_bp_set_current_bulb( str_tag )
 
 	level.m_sq_bp_active_light = sq_bp_light_on( str_tag, "yellow" );
 	level.str_sq_bp_active_light = str_tag;
+	// the following if block auto-completes bells. Currently configured to only work on solo.
+	/*if ( getPlayers().size == 1 )
+	{
+		wait 1;
+		sq_bp_light_on( str_tag, "green" );
+		level notify( "sq_bp_correct_button" );
+	}*/
 	if ( getPlayers().size > 2 )
 	{
 		wait 10;
